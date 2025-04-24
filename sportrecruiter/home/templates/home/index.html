@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Basketball Platform</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'home/css/style.css' %}" />
+</head>
+<body>
+
+<header class="main-header bg-dark py-3">
+    <div class="container d-flex justify-content-between align-items-center">
+        <a class="navbar-brand text-white d-flex align-items-center" href="#">
+            <span class="fs-4 fw-bold">EliteCourt Recruit</span>
+            <i class="fas fa-basketball-ball ms-2 fs-3 text-warning"></i>
+        </a>
+
+        <form method="GET" action="{% url 'search' %}" class="d-flex">
+            <input type="text" name="q" placeholder="Search teams or players..." class="form-control me-2"/>
+            <button type="submit" class="btn btn-outline-light">
+                <i class="fas fa-search"></i>
+            </button>
+        </form>
+
+        <div class="auth-buttons d-flex align-items-center">
+            <!-- Login and Signup Links -->
+            <a href="{% url 'login' %}" class="btn btn-outline-light me-2">Login</a>
+            
+
+        </div>
+    </div>
+</header>
+
+<!-- Featured Teams Section -->
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">🏀 Featured Teams</h2>
+    {% if featured_teams %}
+    <div id="featuredTeamsCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            {% for team in featured_teams %}
+                {% if forloop.first or forloop.counter0|divisibleby:4 %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                    <div class="row">
+                {% endif %}
+
+                <div class="col-md-3 mb-4">
+                    <div class="card h-100 text-center shadow">
+                        <div class="card-body">
+                            <div class="logo-container mb-3 mx-auto">
+                                {% if team.logo %}
+                                <img src="{{ team.logo.url }}" alt="{{ team.name }} logo" class="img-fluid rounded-circle" style="height: 100px; width: 100px; object-fit: cover;">
+                                {% else %}
+                                <div class="bg-secondary rounded-circle d-flex align-items-center justify-content-center" style="height: 100px; width: 100px;">
+                                    <i class="fas fa-basketball-ball text-white fa-2x"></i>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <h5 class="card-title">{{ team.name }}</h5>
+                            <p class="card-text">{{ team.description|truncatewords:15 }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                {% if forloop.counter|divisibleby:4 or forloop.last %}
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#featuredTeamsCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#featuredTeamsCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        </button>
+    </div>
+    {% else %}
+        <p class="text-center">No featured teams available.</p>
+    {% endif %}
+</div>
+<!-- Combined Section: Upcoming Tryouts & Blog Posts -->
+<div class="container mt-5 mb-5">
+    <div class="row">
+
+<!-- Upcoming Tryouts Section -->
+<div class="col-md-6">
+    <h2 class="mb-4 text-center">📅 Upcoming Tryouts</h2>
+
+    {% if upcoming_tryouts %}
+        {% for tryout in upcoming_tryouts %}
+        <div class="card border-0 shadow-lg mb-3">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="fw-bold text-dark me-2">🏷️ {{ tryout.title }}</span>
+                    <span class="text-muted me-2" style="border-left: 1px solid #ddd; padding-left: 15px; margin-left: 15px;">📝 {{ tryout.description }}</span>
+                    <span class="badge rounded-pill bg-gradient bg-primary px-3 py-2" style="border-left: 1px solid #ddd; padding-left: 15px; margin-left: 15px;">📅 {{ tryout.date|date:"M d" }}</span>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+    <div class="alert alert-info text-center">No upcoming tryouts scheduled.</div>
+    {% endif %}
+</div>
+
+
+
+        <!-- Blog Posts Section -->
+        <div class="col-md-6">
+            <h2 class="mb-4 text-center">📰 Blogpost News</h2>
+
+            {% if featured_blog_posts %}
+            <div id="blogCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    {% for post in featured_blog_posts %}
+                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                        <div class="card shadow border-0">
+                            {% if post.image %}
+                            <img src="{{ post.image.url }}" class="card-img-top" alt="{{ post.title }}" style="height: 200px; object-fit: cover;">
+                            {% endif %}
+                            <div class="card-body">
+                                <h5 class="card-title fw-bold">{{ post.title }}</h5>
+                                <p class="card-text text-muted">{{ post.content|truncatewords:30 }}</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <small class="text-muted">{{ post.published_date|date:"F j, Y" }}</small>
+                                    <a href="#" class="btn btn-sm btn-outline-primary">Read More</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#blogCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#blogCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                </button>
+            </div>
+            {% else %}
+            <div class="alert alert-info text-center">No blog posts available.</div>
+            {% endif %}
+        </div>
+
+    </div>
+</div>
+
+
+<!-- Footer Section for Social Media and Professional Links -->
+<footer class="bg-dark text-white py-4">
+    <div class="container">
+        <div class="row">
+            <!-- Social Media Links -->
+            <div class="col-md-4 mb-3">
+                <h5>Follow Us</h5>
+                <a href="https://www.facebook.com" target="_blank" class="text-white me-3">
+                    <i class="fab fa-facebook fa-2x"></i>
+                </a>
+                <a href="https://www.instagram.com" target="_blank" class="text-white me-3">
+                    <i class="fab fa-instagram fa-2x"></i>
+                </a>
+                <a href="https://twitter.com" target="_blank" class="text-white me-3">
+                    <i class="fab fa-twitter fa-2x"></i>
+                </a>
+                <a href="https://www.linkedin.com" target="_blank" class="text-white me-3">
+                    <i class="fab fa-linkedin fa-2x"></i>
+                </a>
+            </div>
+            <!-- Professional Links -->
+            <div class="col-md-4 mb-3">
+                <h5>Professional Links</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-white">Contact Us</a></li>
+                    <li><a href="#" class="text-white">About Us</a></li>
+                    <li><a href="#" class="text-white">Careers</a></li>
+                    <li><a href="#" class="text-white">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <!-- Newsletter Signup -->
+            <div class="col-md-4 mb-3">
+                <h5>Stay Informed</h5>
+                <form action="#" method="post">
+                    <input type="email" class="form-control mb-2" placeholder="Your Email" required>
+                    <button type="submit" class="btn btn-outline-light">Sign Up</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Bootstrap JS and Popper.js -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+}
+
+.card {
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    max-width: 350px;  /* Reduced width for a smaller, sleeker look */
+    margin: auto;  /* Center the card */
+    padding: 15px;  /* Adjusted padding for a more compact look */
+}
+
+h3 {
+    font-weight: bold;
+    font-size: 1.5rem; /* Slightly reduced font size for a more compact design */
+}
+
+.form-label {
+    font-size: 0.9rem; /* Slightly reduced font size for a sleeker form */
+}
+
+input.form-control {
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    padding: 8px 12px;
+    font-size: 0.95rem; /* Smaller font size for inputs */
+}
+
+button.btn-warning {
+    background-color: #f39c12;
+    border-color: #f39c12;
+    color: white;
+    border-radius: 8px;
+    padding: 8px;
+    font-size: 1rem;  /* Adjusted font size for a sleeker button */
+}
+
+button.btn-warning:hover {
+    background-color: #e67e22;
+    border-color: #e67e22;
+}
+
+footer {
+    font-size: 0.8rem;
+}
+
+footer a {
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* New Styles for Role Selection (Radio Buttons) */
+.form-check {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;  /* Reduced margin for a more compact layout */
+}
+
+.form-check-input {
+    width: 18px;  /* Smaller radio button size */
+    height: 18px;
+    margin-right: 8px; /* Reduced space between radio button and label */
+}
+
+.form-check-label {
+    font-size: 0.9rem; /* Smaller label font size */
+    font-weight: normal;
+}
+
+.mb-3 .form-check-label {
+    font-weight: bold;
+}
+
+.card-body {
+    padding: 1.5rem;  /* Reduced padding for a sleeker form */
+}
+
+/* Ensures the card and form elements are well spaced */
+.card {
+    padding: 15px;
+}
+
+.text-center {
+    text-align: center;
+}

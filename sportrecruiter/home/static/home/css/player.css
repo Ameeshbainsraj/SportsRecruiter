@@ -1,0 +1,83 @@
+/* Ensure the body takes full height */
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+/* Main container should take remaining space */
+.main-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 50px; /* Add some space for the footer */
+    gap: 20px; /* This adds a 20px gap between the columns */
+}
+
+/* Footer should be at the bottom */
+footer {
+    position: relative;
+    width: 100%;
+    background-color: #333;
+    color: white;
+    padding: 20px 0;
+    bottom: 0;
+    text-align: center;
+}
+
+/* Styling for the card components */
+.card {
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+    padding: 20px;
+}
+
+/* Styling for navbar */
+.navbar-brand {
+    font-weight: bold;
+}
+
+/* Footer links */
+footer a {
+    text-decoration: none;
+    color: #f0f0f0;
+}
+
+/* Footer hover effect */
+footer a:hover {
+    color: #ff9900;
+}
+
+/* Styling for list items */
+.list-group-item {
+    cursor: pointer;
+}
+
+/* Styling for the logout button */
+.logout-btn {
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 30px;
+    text-transform: uppercase;
+    background-color: #dc3545; /* Bootstrap's danger color */
+    color: white;
+    border: none;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.logout-btn:hover {
+    background-color: #c82333; /* Slightly darker red */
+    transform: scale(1.05); /* Slight scaling effect on hover */
+}
+
+.logout-btn:focus {
+    outline: none;
+}
+
+/* Responsive tweaks for smaller screens */
+@media (max-width: 768px) {
+    .main-container {
+        flex-direction: column;
+    }
+}

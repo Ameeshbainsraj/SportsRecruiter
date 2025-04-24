@@ -1,0 +1,127 @@
+/* ======================= GLOBAL STYLES ======================= */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa; /* Light background for the body */
+}
+
+.container {
+    padding: 0;
+}
+
+/* ======================= NAVBAR ======================= */
+.navbar {
+    background-color: #000; /* Black navbar */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Slight shadow for depth */
+}
+
+.navbar .navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #fff; /* White text for navbar brand */
+}
+
+.navbar .navbar-brand:hover {
+    color: #f39c12; /* Highlight the logo text when hovered */
+}
+
+.navbar .btn-outline-warning {
+    border-color: #f39c12;
+    color: #f39c12;
+}
+
+.navbar .btn-outline-warning:hover {
+    background-color: #f39c12;
+    color: white;
+}
+
+/* ======================= LOGIN FORM ======================= */
+.login-card {
+    background-color: #ffffff;
+    border-radius: 20px; /* Rounded corners for the card */
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1); /* Elegant shadow for a sleek look */
+    transition: box-shadow 0.3s ease; /* Smooth shadow transition */
+}
+
+.login-card:hover {
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2); /* More prominent shadow on hover */
+}
+
+.card-body {
+    padding: 40px; /* More generous padding inside the card */
+}
+
+h3 {
+    font-size: 2rem; /* Larger font for the heading */
+    font-weight: 600; /* Slightly lighter weight for elegance */
+    color: #333;
+}
+
+p.text-muted {
+    font-size: 1rem;
+    color: #6c757d;
+}
+
+button {
+    border-radius: 25px; /* More rounded button */
+    background-color: #f39c12; /* Orange color */
+    border: none;
+    padding: 12px;
+    font-size: 1.1rem;
+}
+
+button:hover {
+    background-color: #e67e22; /* Slightly darker orange when hovered */
+}
+
+/* ======================= ALERT MESSAGES ======================= */
+.alert {
+    margin-bottom: 20px;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* ======================= FOOTER ======================= */
+footer {
+    background-color: #000;
+    color: white;
+}
+
+footer a {
+    color: #f39c12; /* Golden links */
+    text-decoration: none;
+}
+
+footer a:hover {
+    color: #e67e22; /* Darker golden on hover */
+}
+
+footer .text-center {
+    margin-top: 20px;
+}
+
+footer .text-center a {
+    margin: 0 10px;
+}
+
+footer .text-center div {
+    font-size: 0.9rem;
+}
+
+/* ======================= RESPONSIVE DESIGN ======================= */
+@media (max-width: 768px) {
+    .navbar .navbar-brand {
+        font-size: 1.25rem; /* Slightly smaller brand name on mobile */
+    }
+
+    .login-card {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .footer .text-center {
+        font-size: 0.8rem; /* Smaller footer text on mobile */
+    }
+}

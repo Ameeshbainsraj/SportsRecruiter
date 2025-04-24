@@ -1,0 +1,285 @@
+/* Global Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+}
+
+/* === HEADER === */
+.main-header {
+    background-color: #343a40;
+}
+
+.main-header .navbar-brand {
+    color: #fff;
+}
+
+.main-header .auth-buttons a {
+    color: #fff;
+    background-color: #ff6600; /* Orange background for the buttons */
+    padding: 10px 20px;
+    border-radius: 30px;
+    text-transform: uppercase;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.main-header .auth-buttons a:hover {
+    background-color: #ff7b00; /* Slightly darker orange on hover */
+    transform: scale(1.05); /* Add a scaling effect when hovered */
+}
+
+/* === CAROUSEL === */
+.carousel-item {
+    padding: 10px;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    width: 5%;
+    background-color: transparent;
+    border: none;
+}
+
+.carousel-control-prev {
+    margin-left: -45px;
+}
+
+.carousel-control-next {
+    margin-right: -45px;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: black;
+}
+
+.carousel-control-prev-icon::before {
+    content: '\f104'; 
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    font-size: 30px;
+}
+
+.carousel-control-next-icon::before {
+    content: '\f105'; 
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    font-size: 30px;
+}
+
+.carousel {
+    transition: transform 25s ease-in-out;
+}
+
+@media (max-width: 768px) {
+    .carousel-control-prev,
+    .carousel-control-next {
+        display: none;
+    }
+}
+
+/* === CARDS === */
+.card {
+    border: none;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card-title {
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.card-text {
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.card-body .creative-logo {
+    max-width: 100%;
+    height: auto;
+}
+
+/* === HEADING STYLE === */
+h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+}
+
+/* === LOGO === */
+.logo-container {
+    width: 90px;
+    height: 90px;
+    background: linear-gradient(135deg, #ffcc00, #ff6600);
+    border-radius: 50%;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.creative-logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    transform: rotate(-3deg);
+    transition: transform 0.3s ease;
+}
+
+.creative-logo:hover {
+    transform: rotate(3deg) scale(1.05);
+}
+
+/* === FOOTER === */
+footer {
+    background-color: #343a40;
+    color: #fff;
+    padding: 40px 0;
+}
+
+footer a {
+    color: #fff;
+}
+
+footer a:hover {
+    color: #f8f9fa;
+}
+
+footer h5 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+footer .text-white {
+    text-decoration: none;
+    color: #fff;
+}
+
+footer .text-white:hover {
+    color: #f8c102;
+    text-decoration: underline;
+}
+
+footer .fab {
+    transition: transform 0.3s ease-in-out;
+}
+
+footer .fab:hover {
+    transform: scale(1.2);
+}
+
+footer .col-md-4 a {
+    margin-right: 15px;
+}
+
+footer .input-group {
+    width: 100%;
+    margin-top: 10px;
+}
+
+footer .input-group input {
+    border-radius: 20px;
+    padding: 10px;
+    border: 1px solid #ced4da;
+}
+
+footer .input-group button {
+    border-radius: 20px;
+    background-color: #ff7b00;
+    border: none;
+    padding: 10px 20px;
+    color: #fff;
+}
+
+footer .input-group button:hover {
+    background-color: #0056b3;
+}
+
+/* === SOCIAL MEDIA ICONS === */
+footer .fab {
+    transition: transform 0.3s ease-in-out;
+}
+
+footer .fab:hover {
+    transform: scale(1.2);
+}
+
+/* === PROFESSIONAL LINKS === */
+footer .list-unstyled li {
+    margin-bottom: 10px;
+}
+
+footer .list-unstyled li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+footer .list-unstyled li a:hover {
+    color: #f8c102;
+    text-decoration: underline;
+}
+
+/* === FOOTER BOTTOM === */
+footer .row.mt-4 {
+    margin-top: 20px;
+}
+
+footer .col.text-center p {
+    font-size: 0.875rem;
+    margin: 0;
+    color: #bbb;
+}
+
+/* === LOGO === */
+.logo-container {
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle at top left, #ffcc00, #ff6600, #ff3300);
+    border-radius: 80%;
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+    animation: pulseGlow 3s infinite ease-in-out;
+}
+
+.creative-logo {
+    width: 88px;
+    height: 88px;
+    border-radius: 80%;
+    object-fit: cover;
+    transform: rotate(-5deg);
+    transition: transform 0.4s ease, filter 0.3s ease;
+    filter: brightness(0.95) contrast(1.1);
+    border: 3px dashed rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(1px);
+}
+
+.creative-logo:hover {
+    transform: rotate(5deg) scale(1.07);
+    filter: brightness(1.05) saturate(1.2);
+}
+
+/* Logo animation pulse effect */
+@keyframes pulseGlow {
+    0%, 100% {
+        box-shadow: 0 6px 16px rgba(255, 102, 0, 0.4);
+    }
+    50% {
+        box-shadow: 0 8px 24px rgba(255, 102, 0, 0.8);
+    }
+}

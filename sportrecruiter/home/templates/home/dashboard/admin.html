@@ -1,0 +1,140 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{% static 'home/css/admin.css' %}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="header">
+                <h1>ADMIN</h1>
+                <!-- Admin's Name will appear here (Placeholder for now) -->
+                <p id="admin-name">Welcome, Admin</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="javascript:void(0);" id="manage-users" class="active">Manage Users</a></li>
+                    <li><a href="javascript:void(0);" id="site-activities">Site Activities</a></li>
+                    <li><a href="javascript:void(0);" id="notifications">Send Notifications</a></li>
+                    <li><a href="javascript:void(0);" id="reports">Generate Reports</a></li>
+                    <li><a href="javascript:void(0);" id="content-management">Content Management</a></li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Manage Users Section -->
+            <section id="manage-users-section" class="section">
+                <h2>Manage Users</h2>
+                <div class="card user-management">
+                    <button class="btn btn-primary" id="approve-user">Approve User</button>
+                    <button class="btn btn-danger" id="suspend-user">Suspend User</button>
+                    <button class="btn btn-info" id="handle-disputes">Handle Disputes</button>
+                </div>
+            </section>
+
+            <!-- Site Activities Section -->
+            <section id="site-activities-section" class="section" style="display: none;">
+                <h2>Site Activities</h2>
+                <div class="card activities-monitoring">
+                    <button class="btn btn-secondary" id="view-transactions">View Transactions</button>
+                    <button class="btn btn-secondary" id="monitor-player-interactions">Monitor Interactions</button>
+                </div>
+            </section>
+
+            <!-- Send Notifications Section -->
+            <section id="notifications-section" class="section" style="display: none;">
+                <h2>Send Notifications</h2>
+                <div class="card notifications-section">
+                    <textarea id="notification-text" placeholder="Write notification here..."></textarea>
+                    <button class="btn btn-warning" id="send-notification">Send Notification</button>
+                </div>
+            </section>
+
+            <!-- Generate Reports Section -->
+            <section id="reports-section" class="section" style="display: none;">
+                <h2>Generate Reports</h2>
+                <div class="card reports-section">
+                    <button class="btn btn-success" id="generate-tryout-report">Generate Tryout Report</button>
+                    <button class="btn btn-success" id="generate-player-report">Generate Player Report</button>
+                </div>
+            </section>
+
+            <!-- Content Management Section -->
+            <section id="content-management-section" class="section" style="display: none;">
+                <h2>Content Management</h2>
+                <div class="card content-management">
+                    <button class="btn btn-info" id="manage-blogs">Manage Blogs</button>
+                    <button class="btn btn-info" id="manage-news">Manage News</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Admin Dashboard Interactions
+
+        // Manage User Button Click
+        document.getElementById('manage-users').addEventListener('click', function() {
+            hideSections();
+            document.getElementById('manage-users-section').style.display = 'block';
+            setActiveTab('manage-users');
+        });
+
+        // Site Activities Button Click
+        document.getElementById('site-activities').addEventListener('click', function() {
+            hideSections();
+            document.getElementById('site-activities-section').style.display = 'block';
+            setActiveTab('site-activities');
+        });
+
+        // Notifications Button Click
+        document.getElementById('notifications').addEventListener('click', function() {
+            hideSections();
+            document.getElementById('notifications-section').style.display = 'block';
+            setActiveTab('notifications');
+        });
+
+        // Reports Button Click
+        document.getElementById('reports').addEventListener('click', function() {
+            hideSections();
+            document.getElementById('reports-section').style.display = 'block';
+            setActiveTab('reports');
+        });
+
+        // Content Management Button Click
+        document.getElementById('content-management').addEventListener('click', function() {
+            hideSections();
+            document.getElementById('content-management-section').style.display = 'block';
+            setActiveTab('content-management');
+        });
+
+        // Hide all sections
+        function hideSections() {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.style.display = 'none';
+            });
+        }
+
+        // Set active tab
+        function setActiveTab(tabId) {
+            const tabs = document.querySelectorAll('.sidebar nav ul li a');
+            tabs.forEach(tab => {
+                if (tab.id === tabId) {
+                    tab.classList.add('active');
+                } else {
+                    tab.classList.remove('active');
+                }
+            });
+        }
+    </script>
+</body>
+</html>

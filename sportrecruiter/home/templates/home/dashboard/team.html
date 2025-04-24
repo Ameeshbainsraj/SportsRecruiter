@@ -1,0 +1,210 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Member Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'home/css/team.css' %}">
+</head>
+<body>
+
+    <!-- ======================= NAVBAR ======================= -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark w-100">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">EliteCourt Recruit 🏀</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="d-flex ms-auto">
+                <a href="#" class="logout-btn">Logout</a>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- ======================= MAIN CONTENT ======================= -->
+    <div class="container main-container mt-4">
+        <div class="team-card" id="left-column">
+            <div class="card shadow-lg mb-4">
+                <div class="card-body">
+                    <h3 class="text-center mb-3">TEAM MEMBER DASHBOARD</h3>
+                    <p class="text-center text-muted mb-4">Manage your team and organize tryouts efficiently.</p>
+                    <ul class="list-group">
+                        <li class="list-group-item" onclick="loadFeature('edit-team-profile')">
+                            <a href="#" class="text-decoration-none text-dark"><strong>1. Edit Team Profile 🖋️</strong></a>
+                            <p>Update the team name, logo, bio, and other details.</p>
+                        </li>
+                        <li class="list-group-item" onclick="loadFeature('schedule-tryouts')">
+                            <a href="#" class="text-decoration-none text-dark"><strong>2. Manage and Schedule Tryouts 📅</strong></a>
+                            <p>Set the title, date, description, and activate the tryout.</p>
+                        </li>
+                        <li class="list-group-item" onclick="loadFeature('review-applications')">
+                            <a href="#" class="text-decoration-none text-dark"><strong>3. Review Player Applications 📝</strong></a>
+                            <p>Review applications and shortlist candidates for tryouts.</p>
+                        </li>
+                        <li class="list-group-item" onclick="loadFeature('send-messages')">
+                            <a href="#" class="text-decoration-none text-dark"><strong>4. Send Messages 💌</strong></a>
+                            <p>Send interview or trial invitations to selected players.</p>
+                        </li>
+                        <li class="list-group-item" onclick="loadFeature('view-analytics')">
+                            <a href="#" class="text-decoration-none text-dark"><strong>5. View Analytics 📊</strong></a>
+                            <p>Analyze the number of applications and other relevant metrics.</p>
+                        </li>
+                        <li class="list-group-item" onclick="loadFeature('manage-members')">
+                            <a href="#" class="text-decoration-none text-dark"><strong>6. Manage Team Members 🧑‍🤝‍🧑</strong></a>
+                            <p>Add or remove players from your team as needed.</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======================= RIGHT COLUMN (Feature Cards) ======================= -->
+        <div class="feature-cards" id="right-column">
+            <div id="feature-card" class="card shadow-lg mb-4">
+                <div class="card-body" id="feature-content">
+                    <h5 class="text-center">Select a responsibility to view more details</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======================= FOOTER ======================= -->
+    <footer>
+        <div class="container text-center">
+            <div class="mb-2">
+                &copy; 2025 EliteCourt Recruit. All rights reserved.
+            </div>
+            <div class="mb-2">
+                <a href="#" class="text-warning mx-2">Facebook</a>
+                <a href="#" class="text-warning mx-2">Instagram</a>
+                <a href="#" class="text-warning mx-2">Twitter</a>
+            </div>
+            <div>
+                <a href="/privacy-policy/" class="text-white mx-2">Privacy Policy</a>
+                <a href="/terms-of-service/" class="text-white mx-2">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        function loadFeature(feature) {
+            let featureContent = '';
+
+            switch(feature) {
+                case 'edit-team-profile':
+    featureContent = `
+        <h4 class="mb-3 text-center">Edit Team Profile 🖋️</h4>
+        <form method="POST" action="/update-team-profile/" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="teamName" class="form-label">Team Name</label>
+                <input type="text" class="form-control" id="teamName" name="name" placeholder="Enter team name" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="teamLogo" class="form-label">Team Logo</label>
+                <input type="file" class="form-control" id="teamLogo" name="logo" accept="image/*">
+            </div>
+
+            <div class="mb-3">
+                <label for="teamDescription" class="form-label">Team Description</label>
+                <textarea class="form-control" id="teamDescription" name="description" rows="4" placeholder="Enter a brief description of your team" required></textarea>
+            </div>
+
+            <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" id="isFeatured" name="is_featured">
+                <label class="form-check-label" for="isFeatured">
+                    Feature this team on the homepage
+                </label>
+            </div>
+
+            <button type="submit" class="btn btn-dark w-100">Save Changes</button>
+        </form>
+    `;
+    break;
+    case 'schedule-tryouts':
+    featureContent = `
+        <h4 class="mb-4 text-center">Schedule Tryouts 📅</h4>
+        <form method="POST" action="/schedule-tryouts/">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label for="tryoutTitle" class="form-label">Tryout Title</label>
+                <input type="text" class="form-control" id="tryoutTitle" name="title" placeholder="Enter title of the tryout" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="tryoutDate" class="form-label">Date of Tryout</label>
+                <input type="date" class="form-control" id="tryoutDate" name="date" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="tryoutDescription" class="form-label">Description</label>
+                <textarea class="form-control" id="tryoutDescription" name="description" rows="4" placeholder="Enter a brief description of the tryout" required></textarea>
+            </div>
+
+            <div class="form-check mb-4">
+                <input type="checkbox" class="form-check-input" id="isActive" name="is_active">
+                <label class="form-check-label" for="isActive">Mark as Active</label>
+            </div>
+
+            <button type="submit" class="btn btn-dark w-100">Schedule Tryout</button>
+        </form>
+    `;
+    break;
+
+
+                case 'review-applications':
+                    featureContent = `
+                        <h5 class="mb-3">Review Player Applications 📝</h5>
+                        <p>Review the submitted player applications below. You can shortlist players for the tryouts or send a rejection email to others.</p>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Player Name</th>
+                                    <th scope="col">Position</th>
+                                    <th scope="col">Application Status</th>
+                                    <th scope="col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>John Doe</td>
+                                    <td>Guard</td>
+                                    <td>Pending</td>
+                                    <td>
+                                        <button class="btn btn-success">Shortlist</button>
+                                        <button class="btn btn-danger">Reject</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Jane Smith</td>
+                                    <td>Forward</td>
+                                    <td>Pending</td>
+                                    <td>
+                                        <button class="btn btn-success">Shortlist</button>
+                                        <button class="btn btn-danger">Reject</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    `;
+                    break;
+                // other features...
+            }
+
+            // Update only the inner content
+            document.getElementById('feature-content').innerHTML = featureContent;
+
+            // Match height
+            const leftColumn = document.getElementById("left-column");
+            const rightColumn = document.getElementById("right-column");
+            rightColumn.style.height = leftColumn.offsetHeight + 'px';
+        }
+    </script>
+</body>
+</html>

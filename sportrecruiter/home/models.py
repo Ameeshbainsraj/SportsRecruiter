@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-
+from django.contrib.auth.models import User
+from django.core.validators import FileExtensionValidator  # Add this impor
 class CustomUser(AbstractUser):
     ROLE_CHOICES = (
         ('ADMIN', 'Admin'),
@@ -94,3 +95,22 @@ class UserSignup(models.Model):
 
     def __str__(self):
         return self.username
+    
+
+
+
+
+    #--------THIS IS THE PLAYER DASHBOARD MODELS
+
+class Performance(models.Model):
+    user = models.ForeignKey('CustomUser', on_delete=models.CASCADE, null=True, blank=True)
+    video = models.FileField(upload_to='performance_videos/', null=True, blank=True, 
+                           validators=[FileExtensionValidator(allowed_extensions=['mp4', 'mov', 'avi'])])
+    image = models.ImageField(upload_to='performance_images/', null=True, blank=True,
+                            validators=[FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png'])])
+    stats = models.FileField(upload_to='performance_stats/', null=True, blank=True,
+                            validators=[FileExtensionValidator(allowed_extensions=['pdf'])])
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Performance by {self.user.username} on {self.uploaded_at}"

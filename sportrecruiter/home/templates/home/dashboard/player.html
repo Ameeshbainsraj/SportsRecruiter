@@ -66,15 +66,30 @@
         <div class="dashboard-wrapper">
             <!-- ======================= COLUMN 1: SIDEBAR ======================= -->
             <div class="column">
-                <div class="sidebar p-3 border shadow-sm text-center">
-                    <!-- User profile details -->
-                    <img src="{{ request.user.profile_pic.url }}" alt="Profile Pic"
-                        style="width: 80px; height: 80px; border-radius: 50%;">
-                    <h3 class="mt-2">{{ request.user.get_full_name }}</h3>
-                    <p>{{ request.user.bio }}</p>
+                <div class="sidebar p-4 border rounded-3 shadow-sm bg-white text-center">
+                    <!-- User profile picture -->
+                    <div class="d-flex justify-content-center">
+                        <img src="{{ request.user.profile_picture.url }}" alt="Profile Picture"
+                            class="img-fluid rounded-circle border border-2 border-primary"
+                            style="width: 100px; height: 100px; object-fit: cover;">
+                    </div>
+        
+                    <!-- User name -->
+                    <h4 class="mt-3 mb-1 fw-semibold text-dark">{{ request.user.get_full_name }}</h4>
+        
+                    <!-- Bio -->
+                    <p class="text-muted small px-2">{{ request.user.bio|default:"No bio added yet." }}</p>
+        
+                    <!-- Optional: Add a divider and extra buttons or links -->
+                    <hr class="my-3">
+                    <div>
+                        <a href="{% url 'update-profile' %}" class="btn btn-sm btn-outline-primary me-2">Edit Profile</a>
+                        <a href="{% url 'login' %}" class="btn btn-sm btn-outline-danger">Logout</a>
+                    </div>
                 </div>
             </div>
-
+        </div>
+        
             <!-- ======================= COLUMN 2: RESPONSIBILITIES ======================= -->
             <div class="column">
                 <div class="card shadow-lg p-3">
@@ -148,65 +163,65 @@
         
             // Handling different feature cases
             switch (feature) {
-                case 'edit-player-profile':
+                <!-- In the edit-player-profile case section -->
+case 'edit-player-profile':
     content = `
         <h4>Edit Profile 🖋️</h4>
-        <p>Update your profile details to stay fresh and professional. Upload a picture, add your bio, contact info, and more.</p>
-        <form method="POST" enctype="multipart/form-data">
+        <p>Update your profile details to stay fresh and professional.</p>
+        <form method="POST" enctype="multipart/form-data" action="{% url 'update-profile' %}">
             {% csrf_token %}
             <div class="mb-3">
-                <label for="first-name" class="form-label">First Name</label>
-                <input type="text" class="form-control" id="first-name" name="first_name" value="{{ user.first_name }}">
+                <label class="form-label">First Name</label>
+                <input type="text" class="form-control" name="first_name" value="{{ request.user.first_name }}">
             </div>
-
             <div class="mb-3">
-                <label for="last-name" class="form-label">Last Name</label>
-                <input type="text" class="form-control" id="last-name" name="last_name" value="{{ user.last_name }}">
+                <label class="form-label">Last Name</label>
+                <input type="text" class="form-control" name="last_name" value="{{ request.user.last_name }}">
             </div>
-
             <div class="mb-3">
-                <label for="email" class="form-label">Email Address</label>
-                <input type="email" class="form-control" id="email" name="email" value="{{ user.email }}">
+                <label class="form-label">Email Address</label>
+                <input type="email" class="form-control" name="email" value="{{ request.user.email }}">
             </div>
-
             <div class="mb-3">
-                <label for="bio" class="form-label">Bio</label>
-                <textarea class="form-control" id="bio" name="bio" rows="4">{{ user.bio }}</textarea>
+                <label class="form-label">Bio</label>
+                <textarea class="form-control" name="bio" rows="4">{% if request.user.bio %}{{ request.user.bio }}{% endif %}</textarea>
             </div>
-
             <div class="mb-3">
-                <label for="profile-picture" class="form-label">Profile Picture</label>
-                <input type="file" class="form-control" id="profile-picture" name="profile_picture">
+                <label class="form-label">Profile Picture</label>
+                <input type="file" class="form-control" name="profile_picture">
+                {% if request.user.profile_picture %}
+                    <small>Current: {{ request.user.profile_picture.name }}</small>
+                {% endif %}
             </div>
-
             <button type="submit" class="btn btn-primary mt-2">Save Changes</button>
         </form>
     `;
     break;
 
-    
-                case 'upload-performance':
-                    content = `
-                        <h4>Upload Performance Stats 📊</h4>
-                        <p>Showcase your best performances and keep track of your progress. Upload videos, stats, and relevant documents to display your abilities.</p>
-                        <form method="POST" enctype="multipart/form-data">
-                            {% csrf_token %}
-                            <div class="mb-3">
-                                <label for="video-upload" class="form-label">Upload Game/Training Video</label>
-                                <input type="file" class="form-control" id="video-upload" name="video" accept="video/*">
-                            </div>
-                            <div class="mb-3">
-                                <label for="image-upload" class="form-label">Upload Performance Image</label>
-                                <input type="file" class="form-control" id="image-upload" name="image" accept="image/*">
-                            </div>
-                            <div class="mb-3">
-                                <label for="stats-upload" class="form-label">Upload Performance Stats (PDF)</label>
-                                <input type="file" class="form-control" id="stats-upload" name="stats" accept="application/pdf">
-                            </div>
-                            <button type="submit" class="btn btn-primary mt-2">Upload</button>
-                        </form>
-                    `;
-                    break;
+
+    case 'upload-performance':
+        content = `
+            <h4>Upload Performance Stats 📊</h4>
+            <p>Showcase your best performances and keep track of your progress.</p>
+            <form method="POST" enctype="multipart/form-data" action="{% url 'upload-performance' %}">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label class="form-label">Game/Training Video</label>
+                    <input type="file" class="form-control" name="video" accept="video/*">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Performance Image</label>
+                    <input type="file" class="form-control" name="image" accept="image/*">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Performance Stats (PDF)</label>
+                    <input type="file" class="form-control" name="stats" accept="application/pdf">
+                </div>
+                <button type="submit" class="btn btn-primary mt-2">Upload</button>
+            </form>
+        `;
+        break;
+
     
                 case 'set-availability':
                     content = `

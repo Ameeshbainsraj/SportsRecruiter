@@ -257,30 +257,44 @@ def edit_profile(request):
 
 from .models import CustomUser
 from .forms import EditProfileForm
+@login_required
 def update_profile(request):
-    user = CustomUser.objects.get(id=request.user.id)  # Assuming the user is logged in
-
+    user = request.user
     if request.method == "POST":
-        # Check if data is received correctly
-        print(request.POST)  # Print out form data
-
-        # Get data from form and bind it to the instance of the current user
-        user.first_name = request.POST['first_name']
-        user.last_name = request.POST['last_name']
-        user.email = request.POST['email']
-        user.bio = request.POST['bio']
-
-        # Handle Profile Picture Update
-        if request.FILES.get('profile_picture'):
-            user.profile_picture = request.FILES['profile_picture']
-
-        # Save changes
-        try:
-            user.save()
-            print("User data saved successfully!")
-        except Exception as e:
-            print(f"Error saving user: {e}")
-
-        return redirect('player')  # Redirect to profile view page or another page
+        form = EditProfileForm(request.POST, request.FILES, instance=user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Profile updated successfully!")
+            return redirect('player')
+        else:
+            messages.error(request, "Please correct the errors below.")
     
-    return render(request, 'home/dashboard/player.html')  # Your profile edit template
+    return redirect('player')
+
+
+
+
+
+#----- update performance-----
+
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from .models import Performance
+from .forms import PerformanceForm
+
+@login_required
+def upload_performance(request):
+    if request.method == 'POST':
+        form = PerformanceForm(request.POST, request.FILES)
+        if form.is_valid():
+            performance = form.save(commit=False)
+            performance.user = request.user
+            performance.save()
+            messages.success(request, "Performance uploaded successfully!")
+            return redirect('player')
+        else:
+            messages.error(request, "Please correct the errors below.")
+    else:
+        form = PerformanceForm()
+    
+    return render(request, 'home/dashboard/player.html', {'performance_form': form})

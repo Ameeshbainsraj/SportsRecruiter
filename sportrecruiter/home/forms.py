@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import get_user_model
-from .models import HomeTeam, Tryout  # Assuming you need these for other forms
+from .models import HomeTeam, Tryout , Performance # Assuming you need these for other forms
 from .models import CustomUser
 
 # Get the custom user model
@@ -80,3 +80,15 @@ class EditProfileForm(forms.ModelForm):
     class Meta:
         model = CustomUser
         fields = ['first_name', 'last_name', 'bio', 'profile_picture']
+
+
+class PerformanceForm(forms.ModelForm):
+    class Meta:
+        model = Performance
+        fields = ['video', 'image', 'stats']  # Fields to upload video, image, and PDF
+
+        widgets = {
+            'video': forms.ClearableFileInput(attrs={'accept': 'video/*'}),
+            'image': forms.ClearableFileInput(attrs={'accept': 'image/*'}),
+            'stats': forms.ClearableFileInput(attrs={'accept': 'application/pdf'})
+        }

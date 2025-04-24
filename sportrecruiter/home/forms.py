@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import get_user_model
 from .models import HomeTeam, Tryout  # Assuming you need these for other forms
+from .models import CustomUser
 
 # Get the custom user model
 CustomUser = get_user_model()
@@ -71,3 +72,11 @@ class SignupForm(UserCreationForm):
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=254, label='Email or Username')
     password = forms.CharField(widget=forms.PasswordInput)
+
+
+
+
+class EditProfileForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ['first_name', 'last_name', 'bio', 'profile_picture']

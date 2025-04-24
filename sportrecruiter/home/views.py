@@ -11,6 +11,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
+from .forms import EditProfileForm
 from .models import UserSignup
 
 from .forms import LoginForm
@@ -234,3 +236,51 @@ def register_view(request):
         return redirect('login')  # or wherever you wanna redirect
 
     return render(request, 'home/auth/register.html')
+
+
+# --- PLAYER DASHBOARD ---
+
+@login_required
+def edit_profile(request):
+    user = request.user
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST, request.FILES, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('player')  # or wherever you want to go after saving
+    else:
+        form = EditProfileForm(instance=user)
+    
+    return render(request, 'home/dashboard/player.html', {'form': form})
+
+
+
+from .models import CustomUser
+from .forms import EditProfileForm
+def update_profile(request):
+    user = CustomUser.objects.get(id=request.user.id)  # Assuming the user is logged in
+
+    if request.method == "POST":
+        # Check if data is received correctly
+        print(request.POST)  # Print out form data
+
+        # Get data from form and bind it to the instance of the current user
+        user.first_name = request.POST['first_name']
+        user.last_name = request.POST['last_name']
+        user.email = request.POST['email']
+        user.bio = request.POST['bio']
+
+        # Handle Profile Picture Update
+        if request.FILES.get('profile_picture'):
+            user.profile_picture = request.FILES['profile_picture']
+
+        # Save changes
+        try:
+            user.save()
+            print("User data saved successfully!")
+        except Exception as e:
+            print(f"Error saving user: {e}")
+
+        return redirect('player')  # Redirect to profile view page or another page
+    
+    return render(request, 'home/dashboard/player.html')  # Your profile edit template

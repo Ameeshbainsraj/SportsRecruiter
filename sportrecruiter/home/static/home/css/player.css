@@ -81,3 +81,52 @@ footer a:hover {
         flex-direction: column;
     }
 }
+
+.dashboard-wrapper {
+    display: flex;
+    gap: 30px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+}
+
+.column {
+    flex: 1;
+    min-width: 300px;
+}
+
+.sidebar {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    padding: 15px;
+    max-width: 350px; /* Make sidebar slightly larger */
+}
+
+.card {
+    min-height: 100%;
+}
+
+.main-container {
+    max-width: 1200px;
+}
+
+/* Increase the width of the right column */
+.column:nth-child(2) {
+    flex: 2; /* Make the second column (right column) twice as wide */
+}
+
+.profile-pic {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+
+.edit-button {
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+@media (max-width: 992px) {
+    .dashboard-wrapper {
+        flex-direction: column;
+    }
+}

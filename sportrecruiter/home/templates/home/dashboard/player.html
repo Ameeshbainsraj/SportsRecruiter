@@ -1,88 +1,133 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Player Dashboard</title>
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom player dashboard styles -->
     <link rel="stylesheet" href="{% static 'home/css/player.css' %}">
-</head>
-<body>
+    <style>
+        /* Dashboard layout styles */
+        .dashboard-wrapper {
+            display: flex;
+            gap: 30px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
 
+        .column {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .sidebar {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .card {
+            min-height: 100%;
+        }
+
+        .main-container {
+            max-width: 1200px;
+        }
+
+        /* Media query for responsiveness */
+        @media (max-width: 992px) {
+            .dashboard-wrapper {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
     <!-- ======================= NAVBAR ======================= -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark w-100">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">EliteCourt Recruit 🏀</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="d-flex ms-auto">
-                <!-- Updated Logout Button -->
-                <a href="#" class="btn btn-danger logout-btn ms-3">
-                    Logout
-                </a>
+                <a href="#" class="btn btn-danger logout-btn ms-3">Logout</a>
             </div>
         </div>
     </nav>
-    <!-- ======================= END NAVBAR ======================= -->
 
     <!-- ======================= MAIN CONTENT ======================= -->
-    <div class="container main-container mt-4">
-        <!-- ======================= LEFT COLUMN (Player Responsibilities) ======================= -->
-        <div class="player-card" id="left-column" style="flex: 1;">
-            <div class="card shadow-lg mb-4">
-                <div class="card-body">
-                    <h3 class="text-center mb-3">PLAYER DASHBOARD</h3>
-                    <p class="text-center text-muted mb-4">Manage your profile, track applications, and connect with teams.</p>
-
-                    <ul class="list-group">
-                        <li class="list-group-item" onclick="loadFeature('edit-player-profile')">
-                            <a href="#" class="text-decoration-none text-dark"><strong>1. Edit Profile 🖋️</strong></a>
-                            <p>Manage your personal info, photo, and bio.</p>
-                        </li>
-                        <li class="list-group-item" onclick="loadFeature('upload-performance')">
-                            <a href="#" class="text-decoration-none text-dark"><strong>2. Upload Performance Stats 📊</strong></a>
-                            <p>Upload your game footage, stats, and other relevant content.</p>
-                        </li>
-                        <li class="list-group-item" onclick="loadFeature('set-availability')">
-                            <a href="#" class="text-decoration-none text-dark"><strong>3. Set Availability 🕒</strong></a>
-                            <p>Indicate your availability and preferred locations for tryouts.</p>
-                        </li>
-                        <li class="list-group-item" onclick="loadFeature('track-applications')">
-                            <a href="#" class="text-decoration-none text-dark"><strong>4. Track Applications 📑</strong></a>
-                            <p>Track the history of your applications to teams.</p>
-                        </li>
-                        <li class="list-group-item" onclick="loadFeature('message-teams')">
-                            <a href="#" class="text-decoration-none text-dark"><strong>5. Message Teams 💬</strong></a>
-                            <p>Communicate with teams about tryouts and updates.</p>
-                        </li>
-                        <li class="list-group-item" onclick="loadFeature('favorite-teams')">
-                            <a href="#" class="text-decoration-none text-dark"><strong>6. Mark Teams as Favorites ❤️</strong></a>
-                            <p>Save your favorite teams for quick access later.</p>
-                        </li>
-                    </ul>
+    <div class="container main-container">
+        <div class="dashboard-wrapper">
+            <!-- ======================= COLUMN 1: SIDEBAR ======================= -->
+            <div class="column">
+                <div class="sidebar p-3 border shadow-sm text-center">
+                    <!-- User profile details -->
+                    <img src="{{ request.user.profile_pic.url }}" alt="Profile Pic"
+                        style="width: 80px; height: 80px; border-radius: 50%;">
+                    <h3 class="mt-2">{{ request.user.get_full_name }}</h3>
+                    <p>{{ request.user.bio }}</p>
                 </div>
             </div>
-        </div>
 
-        <!-- ======================= RIGHT COLUMN (Feature Cards) ======================= -->
-        <div class="feature-cards" id="right-column" style="flex: 1;">
-            <div id="feature-card" class="card shadow-lg mb-4">
-                <div class="card-body">
-                    <h5 class="text-center">Select a responsibility to view more details</h5>
+            <!-- ======================= COLUMN 2: RESPONSIBILITIES ======================= -->
+            <div class="column">
+                <div class="card shadow-lg p-3">
+                    <div class="card-body">
+                        <h3 class="text-center mb-3">PLAYER DASHBOARD</h3>
+                        <p class="text-center text-muted mb-4">Manage your profile, track applications, and connect with teams.</p>
+                        <!-- List of responsibilities and actions -->
+                        <ul class="list-group">
+                            <li class="list-group-item" onclick="loadFeature('edit-player-profile')">
+                                <a href="#" class="text-decoration-none text-dark"><strong>1. Edit Profile 🖋️</strong></a>
+                                <p>Manage your personal info, photo, and bio.</p>
+                            </li>
+                            <li class="list-group-item" onclick="loadFeature('upload-performance')">
+                                <a href="#" class="text-decoration-none text-dark"><strong>2. Upload Performance Stats 📊</strong></a>
+                                <p>Upload your game footage, stats, and other relevant content.</p>
+                            </li>
+                            <li class="list-group-item" onclick="loadFeature('set-availability')">
+                                <a href="#" class="text-decoration-none text-dark"><strong>3. Set Availability 🕒</strong></a>
+                                <p>Indicate your availability and preferred locations for tryouts.</p>
+                            </li>
+                            <li class="list-group-item" onclick="loadFeature('track-applications')">
+                                <a href="#" class="text-decoration-none text-dark"><strong>4. Track Applications 📑</strong></a>
+                                <p>Track the history of your applications to teams.</p>
+                            </li>
+                            <li class="list-group-item" onclick="loadFeature('message-teams')">
+                                <a href="#" class="text-decoration-none text-dark"><strong>5. Message Teams 💬</strong></a>
+                                <p>Communicate with teams about tryouts and updates.</p>
+                            </li>
+                            <li class="list-group-item" onclick="loadFeature('favorite-teams')">
+                                <a href="#" class="text-decoration-none text-dark"><strong>6. Mark Teams as Favorites ❤️</strong></a>
+                                <p>Save your favorite teams for quick access later.</p>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
+
+            <!-- ======================= COLUMN 3: FEATURE DETAILS ======================= -->
+            <div class="column">
+                <div id="feature-card" class="card shadow-lg p-3">
+                    <div class="card-body">
+                        <h5 class="text-center text-muted">Select a responsibility to view more details</h5>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
-    <!-- ======================= END MAIN CONTENT ======================= -->
 
     <!-- ======================= FOOTER ======================= -->
-    <footer>
+    <footer class="bg-dark text-light mt-5 py-4">
         <div class="container text-center">
-            <div class="mb-2">
-                &copy; 2025 EliteCourt Recruit. All rights reserved.
-            </div>
+            <div class="mb-2">&copy; 2025 EliteCourt Recruit. All rights reserved.</div>
             <div class="mb-2">
                 <a href="#" class="text-warning mx-2">Facebook</a>
                 <a href="#" class="text-warning mx-2">Instagram</a>
@@ -94,70 +139,147 @@
             </div>
         </div>
     </footer>
-    <!-- ======================= END FOOTER ======================= -->
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-
+    <!-- ======================= SCRIPT ======================= -->
     <script>
-        // JavaScript to load the feature cards dynamically
+        // Function to load specific features based on user action
         function loadFeature(feature) {
-            let featureContent = '';
-
-            switch(feature) {
+            let content = '';
+        
+            // Handling different feature cases
+            switch (feature) {
                 case 'edit-player-profile':
-                    featureContent = `
-                        <h5>Edit Profile</h5>
-                        <p>Here, you can manage your personal info, photo, and bio.</p>
-                    `;
-                    break;
+    content = `
+        <h4>Edit Profile 🖋️</h4>
+        <p>Update your profile details to stay fresh and professional. Upload a picture, add your bio, contact info, and more.</p>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="first-name" class="form-label">First Name</label>
+                <input type="text" class="form-control" id="first-name" name="first_name" value="{{ user.first_name }}">
+            </div>
+
+            <div class="mb-3">
+                <label for="last-name" class="form-label">Last Name</label>
+                <input type="text" class="form-control" id="last-name" name="last_name" value="{{ user.last_name }}">
+            </div>
+
+            <div class="mb-3">
+                <label for="email" class="form-label">Email Address</label>
+                <input type="email" class="form-control" id="email" name="email" value="{{ user.email }}">
+            </div>
+
+            <div class="mb-3">
+                <label for="bio" class="form-label">Bio</label>
+                <textarea class="form-control" id="bio" name="bio" rows="4">{{ user.bio }}</textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="profile-picture" class="form-label">Profile Picture</label>
+                <input type="file" class="form-control" id="profile-picture" name="profile_picture">
+            </div>
+
+            <button type="submit" class="btn btn-primary mt-2">Save Changes</button>
+        </form>
+    `;
+    break;
+
+    
                 case 'upload-performance':
-                    featureContent = `
-                        <h5>Upload Performance Stats</h5>
-                        <p>Upload your game footage, stats, and other relevant content.</p>
+                    content = `
+                        <h4>Upload Performance Stats 📊</h4>
+                        <p>Showcase your best performances and keep track of your progress. Upload videos, stats, and relevant documents to display your abilities.</p>
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="video-upload" class="form-label">Upload Game/Training Video</label>
+                                <input type="file" class="form-control" id="video-upload" name="video" accept="video/*">
+                            </div>
+                            <div class="mb-3">
+                                <label for="image-upload" class="form-label">Upload Performance Image</label>
+                                <input type="file" class="form-control" id="image-upload" name="image" accept="image/*">
+                            </div>
+                            <div class="mb-3">
+                                <label for="stats-upload" class="form-label">Upload Performance Stats (PDF)</label>
+                                <input type="file" class="form-control" id="stats-upload" name="stats" accept="application/pdf">
+                            </div>
+                            <button type="submit" class="btn btn-primary mt-2">Upload</button>
+                        </form>
                     `;
                     break;
+    
                 case 'set-availability':
-                    featureContent = `
-                        <h5>Set Availability</h5>
-                        <p>Indicate your availability and preferred locations for tryouts.</p>
+                    content = `
+                        <h4>Set Availability 🕒</h4>
+                        <p>Set your availability to let teams know when you're free for tryouts or games. Specify your available times and locations.</p>
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="availability-dates" class="form-label">Available Dates</label>
+                                <input type="text" class="form-control" id="availability-dates" name="availability_dates" placeholder="e.g., Monday, Wednesday, Friday">
+                            </div>
+                            <div class="mb-3">
+                                <label for="availability-times" class="form-label">Available Times</label>
+                                <input type="text" class="form-control" id="availability-times" name="availability_times" placeholder="e.g., 10 AM - 4 PM">
+                            </div>
+                            <div class="mb-3">
+                                <label for="preferred-location" class="form-label">Preferred Location</label>
+                                <input type="text" class="form-control" id="preferred-location" name="preferred_location" placeholder="e.g., Downtown Arena">
+                            </div>
+                            <button type="submit" class="btn btn-primary mt-2">Save Availability</button>
+                        </form>
                     `;
                     break;
+    
                 case 'track-applications':
-                    featureContent = `
-                        <h5>Track Applications</h5>
-                        <p>Track the history of your applications to teams.</p>
+                    content = `
+                        <h4>Track Applications 📑</h4>
+                        <p>View the status of your applications to different teams. Track which teams you’ve applied to and their response statuses.</p>
+                        <ul class="list-group">
+                            <li class="list-group-item">Team A - Pending</li>
+                            <li class="list-group-item">Team B - Accepted</li>
+                            <li class="list-group-item">Team C - Rejected</li>
+                        </ul>
                     `;
                     break;
+    
                 case 'message-teams':
-                    featureContent = `
-                        <h5>Message Teams</h5>
-                        <p>Communicate with teams about tryouts and updates.</p>
+                    content = `
+                        <h4>Message Teams 💬</h4>
+                        <p>Send direct messages to teams regarding tryouts, updates, or any other inquiries. Stay in touch with potential employers.</p>
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="team-message" class="form-label">Message</label>
+                                <textarea class="form-control" id="team-message" name="message" rows="4" placeholder="Enter your message here..."></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary mt-2">Send Message</button>
+                        </form>
                     `;
                     break;
+    
                 case 'favorite-teams':
-                    featureContent = `
-                        <h5>Mark Teams as Favorites</h5>
-                        <p>Save your favorite teams for quick access later.</p>
+                    content = `
+                        <h4>Mark Teams as Favorites ❤️</h4>
+                        <p>Save teams you're interested in to your favorites list. Easily access them later when you want to apply or get in touch.</p>
+                        <ul class="list-group">
+                            <li class="list-group-item">Team A <button class="btn btn-warning btn-sm ms-2">Unfavorite</button></li>
+                            <li class="list-group-item">Team B <button class="btn btn-warning btn-sm ms-2">Unfavorite</button></li>
+                            <li class="list-group-item">Team C <button class="btn btn-warning btn-sm ms-2">Unfavorite</button></li>
+                        </ul>
+                        <button class="btn btn-success mt-3">Add New Favorite</button>
                     `;
                     break;
+    
                 default:
-                    featureContent = `
-                        <h5>Select a responsibility</h5>
-                        <p>Please click a responsibility to view more details.</p>
-                    `;
+                    content = `<h5 class="text-center text-muted">Select a responsibility to view more details</h5>`;
             }
-
-            document.getElementById('feature-card').innerHTML = featureContent;
+            
+            // Inject content into the feature card
+            document.getElementById('feature-card').innerHTML = content;
         }
-
-        // JavaScript to match the height of both columns dynamically
-        window.onload = function() {
-            const leftColumn = document.getElementById("left-column");
-            const rightColumn = document.getElementById("right-column");
-
-            const leftHeight = leftColumn.offsetHeight;
-            rightColumn.style.height = `${leftHeight}px`;
-        };
     </script>
+    
 </body>
+
 </html>

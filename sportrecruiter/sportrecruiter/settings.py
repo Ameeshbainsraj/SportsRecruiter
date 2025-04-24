@@ -17,6 +17,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'home',  # Your custom app name
+        'widget_tweaks',
 ]
 
 MIDDLEWARE = [

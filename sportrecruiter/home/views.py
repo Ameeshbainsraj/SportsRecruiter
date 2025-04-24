@@ -10,7 +10,13 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib import messages
+from django.contrib.auth import authenticate, login
+from .models import UserSignup
+
+from .forms import LoginForm
 from django.contrib.auth import get_user_model
+
+
 CustomUser = get_user_model()
 
 # --- Main Views ---
@@ -29,25 +35,30 @@ def team_dashboard_main(request):
 def player_dashboard_main(request):
     return render(request, 'home/dashboard/player.html')
 
-# --- Authentication Views ---
 def login_view(request):
-    """Login view that handles user authentication."""
-    if request.user.is_authenticated:
-        return redirect_to_dashboard(request.user)
-
     if request.method == 'POST':
-        form = CustomAuthenticationForm(request, data=request.POST)
+        form = LoginForm(request.POST)
         if form.is_valid():
-            user = form.get_user()
-            login(request, user)
-            return redirect_to_dashboard(user)
-        else:
-            messages.error(request, "Invalid username or password.")
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+
+                # 🎯 Role-based redirect
+                if user.role == 'PLAYER':
+                    return redirect('player')  # Make sure this URL name exists
+                elif user.role == 'TEAM':
+                    return redirect('team')  # Make sure this URL name exists
+                else:
+                    return redirect('default_dashboard')  # Just in case
+
+            else:
+                messages.error(request, "Invalid username or password.")
     else:
-        form = CustomAuthenticationForm()
+        form = LoginForm()
 
-    return render(request, 'auth/login.html', {'form': form})
-
+    return render(request, 'home/auth/login.html', {'form': form})
 
 def signup_view(request):
     if request.method == 'POST':
@@ -62,7 +73,7 @@ def signup_view(request):
             form.save_m2m()  
             
             messages.success(request, "Account created successfully! Please log in.")
-            return redirect('login')
+            return redirect('home/login')
         else:
             # Pass form errors to template
             messages.error(request, "Please correct the errors below.")
@@ -208,3 +219,18 @@ def search(request):
         'query': query,
     }
     return render(request, 'home/search.html', context)
+
+
+# --- SIGN UP ---
+
+def register_view(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+
+        # Save to DB
+        UserSignup.objects.create(username=username, email=email, password=password)
+        return redirect('login')  # or wherever you wanna redirect
+
+    return render(request, 'home/auth/register.html')

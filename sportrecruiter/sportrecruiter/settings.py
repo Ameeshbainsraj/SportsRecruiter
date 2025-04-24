@@ -109,4 +109,5 @@ LOGIN_REDIRECT_URL = 'home'  # Default fallback redirect URL
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
+    'home.backends.EmailAuthBackend',  # <-- Adjust to real app name
 ]
